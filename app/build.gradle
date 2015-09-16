@@ -38,6 +38,14 @@ android {
             keyPassword System.getenv("WHEREAT_APK_KEY_PASSWORD")
         }
     }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'armeabi', 'armeabi-v7a', 'mips'
+            universalApk false
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
