@@ -11,8 +11,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import org.abstractj.kalium.crypto.Random;
 
+import static java.util.UUID.randomUUID;
 
 public class UserLocation implements Parcelable {
 
@@ -21,9 +21,10 @@ public class UserLocation implements Parcelable {
     @SerializedName("lon") private double mLon;
     @SerializedName("time") private long mTime;
 
+    // CONSTRUCTORS
+
     public static UserLocation valueOf(Location l){
-        Random r = new Random();
-        String id = new String(r.randomBytes(32));
+        String id = randomUUID().toString();
         return valueOf(id, l);
     }
 
