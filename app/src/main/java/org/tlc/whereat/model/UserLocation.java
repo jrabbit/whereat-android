@@ -12,7 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static java.util.UUID.randomUUID;
+import org.abstractj.kalium.crypto.Random;
 
 public class UserLocation implements Parcelable {
 
@@ -24,7 +24,8 @@ public class UserLocation implements Parcelable {
     // CONSTRUCTORS
 
     public static UserLocation valueOf(Location l){
-        String id = randomUUID().toString();
+        Random r = new Random();
+        String id = new String(r.randomBytes(32));
         return valueOf(id, l);
     }
 
