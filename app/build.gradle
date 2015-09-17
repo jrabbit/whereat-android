@@ -1,6 +1,9 @@
 buildscript {
     repositories {
         mavenCentral()
+        flatDir {
+            dirs 'libs'
+        }
     }
 
     dependencies {
@@ -38,6 +41,12 @@ android {
             keyPassword System.getenv("WHEREAT_APK_KEY_PASSWORD")
         }
     }
+    sourceSets{
+        main.java {
+            srcDir 'src/main/java'
+        }
+        jniLibs.srcDir 'libs'
+    }
     splits {
         abi {
             enable true
@@ -61,17 +70,16 @@ repositories {
 
 dependencies {
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*'])
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.google.android.gms:play-services:7.0.0'
     compile 'io.reactivex:rxandroid:0.25.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
-
     testCompile 'com.squareup.okhttp:mockwebserver:2.4.0'
     testCompile 'junit:junit:4.12'
-    testCompile "org.assertj:assertj-core:1.7.0"
+    testCompile 'org.assertj:assertj-core:1.7.0'
     testCompile 'org.robolectric:robolectric:3.0-rc3'
     testCompile 'org.robolectric:shadows-support-v4:3.0-rc3'
     testCompile 'org.robolectric:shadows-play-services:3.0-rc2'
@@ -80,6 +88,9 @@ dependencies {
     //    testCompile 'com.squareup.assertj:assertj-android:1.0.0'
 }
 
+tasks.withType(Test) {
+    systemProperty 'java.library.path', '/Users/jkeene/dev/Work/Where@/android/app/libs/x86'
+}
 
 
 
