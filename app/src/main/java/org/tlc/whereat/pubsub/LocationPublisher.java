@@ -21,10 +21,11 @@ import org.tlc.whereat.db.LocationDao;
 import org.tlc.whereat.model.ApiMessage;
 import org.tlc.whereat.model.UserLocation;
 
-import java.util.UUID;
 
 import rx.Observable;
 import rx.Subscription;
+
+import static org.tlc.whereat.util.CryptoUtils.makeRandomId;
 
 public class LocationPublisher extends Service
     implements GoogleApiClient.ConnectionCallbacks,
@@ -92,7 +93,7 @@ public class LocationPublisher extends Service
             .setFastestInterval(POLLING_INTERVAL);
 
         mDao = new LocationDao(this).connect();
-        mUserId = UUID.randomUUID().toString();
+        mUserId = makeRandomId();
         mPolling = false;
 
         mWhereatClient = WhereatApiClient.getInstance();
