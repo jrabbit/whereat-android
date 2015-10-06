@@ -12,7 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import org.abstractj.kalium.crypto.Random;
+import org.whispersystems.curve25519.JCESecureRandomProvider;
 
 public class UserLocation implements Parcelable {
 
@@ -24,8 +24,10 @@ public class UserLocation implements Parcelable {
     // CONSTRUCTORS
 
     public static UserLocation valueOf(Location l){
-        Random r = new Random();
-        String id = new String(r.randomBytes(32));
+        JCESecureRandomProvider srp = new JCESecureRandomProvider();
+        byte[] idBytes = new byte[32];
+        srp.nextBytes(idBytes);
+        String id = new String(idBytes);
         return valueOf(id, l);
     }
 
