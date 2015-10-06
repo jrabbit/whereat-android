@@ -5,6 +5,10 @@ import android.location.Location;
 import com.google.gson.Gson;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
+import org.tlc.whereat.BuildConfig;
 
 import java.util.Arrays;
 
@@ -13,6 +17,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 
 public class UserLocationTest {
 

@@ -1,5 +1,8 @@
 package org.tlc.whereat.api;
 
+import com.squareup.okhttp.CertificatePinner;
+import com.squareup.okhttp.OkHttpClient;
+
 import org.tlc.whereat.model.ApiMessage;
 import org.tlc.whereat.model.UserLocationTimestamped;
 import org.tlc.whereat.model.UserLocation;
@@ -7,6 +10,7 @@ import org.tlc.whereat.model.UserLocation;
 import java.util.List;
 
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 import retrofit.http.Body;
 import retrofit.http.POST;
 import rx.Observable;
@@ -21,8 +25,6 @@ public class WhereatApiClient implements WhereatApi {
     private static String mRoot = "https://whereat-server.herokuapp.com";
     private static WhereatApiClient mInstance;
     private WhereatApi mApi;
-
-
     // CONSTRUCTORS
 
     public static WhereatApiClient getInstance(){
@@ -36,8 +38,15 @@ public class WhereatApiClient implements WhereatApi {
     }
 
     private WhereatApiClient(String root){
+        CertificatePinner certificatePinner = new CertificatePinner.Builder()
+            .add(mRoot,System.getenv("WHEREAT_PKP_PUBLIC_KEY"))
+            .add(mRoot,System.getenv("WHEREAT_PKP_BACKUP_KEY"))
+            .build();
+        OkHttpClient client = new OkHttpClient();
+        client.setCertificatePinner(certificatePinner);
         RestAdapter ra = new RestAdapter.Builder()
             .setEndpoint(root)
+            .setClient(new OkClient(client))
             .build();
 
         mApi = ra.create(WhereatApi.class);
